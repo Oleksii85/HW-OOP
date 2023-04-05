@@ -37,3 +37,4 @@ p3.call('y')
 l = [p1, p2, p3]
 print('Numbers: ', p1.number, p2.number, p3.number, 'calls accepted: ', p1._counter + p2._counter + p3._counter)
 print('Total calls: ', tot_call(l))
+# 123
