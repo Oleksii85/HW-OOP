@@ -1,25 +1,27 @@
+from typing import List
+
+
 class Phone:
     number: str = '123'
     _counter: int = 0
 
-    def new_number(self):
+    def new_number(self) -> None:
         self.number = str(input('Please enter number: '))
-        return self.number
 
-    def call_accept(self):
+    def _call_accept(self) -> None:
         self._counter += 1
-        print('call accepted')
+
+    def call(self, inp) -> None:
+        if inp == 'y':
+            self._call_accept()
+
+    def get_counter(self) -> int:
         return self._counter
 
-    def call(self, __inp):
-        if __inp == 'y':
-            self.call_accept()
 
-    def get_counter(self):
-        return self._counter
+def tot_call(phones: List[Phone]) -> int:
+    return sum(phone.get_counter() for phone in phones)
 
-def tot_call(telnum):
-    return sum(tel.get_counter() for tel in telnum)
 
 p1 = Phone()
 p2 = Phone()
@@ -35,5 +37,4 @@ p2.call('y')
 p3.call('n')
 p3.call('y')
 l = [p1, p2, p3]
-print('Numbers: ', p1.number, p2.number, p3.number, 'calls accepted: ', p1._counter + p2._counter + p3._counter)
 print('Total calls: ', tot_call(l))
