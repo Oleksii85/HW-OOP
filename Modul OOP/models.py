@@ -10,9 +10,8 @@ class Enemy:
         self.health: int = settings.INITIAL_ENEMY_LEVEL      # очки здоров’я противника
 
     def decrease_health(self) -> None:
-        if self.health >= 1:
-            self.health -= 1
-        else:
+        self.health -= 1
+        if self.health < 1:
             raise exceptions.EnemyDown
 
     @staticmethod
@@ -33,32 +32,34 @@ class Player:
         self.fight_result: str = ''
 
     def decrease_health(self) -> None:
-        if self.health >= 1:
-            self.health -= 1
-        else:
+        self.health -= 1
+        if self.health < 1:
             raise exceptions.GameOver
 
     def attack(self, enemy: Enemy) -> None:
-        res_fight = self.fight(self.select_attack(), enemy.select_defence)
+        sel_attack = self.select_attack()
+        sel_defence = enemy.select_defence()
+        res_fight = self.fight(sel_attack, sel_defence)
         if res_fight == '+':
-            self.score += settings.SCORE_SUCCESS_ATTACK
             print('YOUR ATTACK IS SUCCESSFUL!')
+            self.score += settings.SCORE_SUCCESS_ATTACK
+            enemy.decrease_health()
         elif res_fight == 'draw':
             print('IT’S A DRAW!')
         else:
-            self.decrease_health()
             print('YOUR ATTACK IS FAILED!')
 
     def defence(self, enemy: Enemy) -> None:
-        res_fight = self.fight(self.select_defence(), enemy.select_attack())
+        sel_defence = self.select_defence()
+        sel_attack = enemy.select_attack()
+        res_fight = self.fight(sel_attack, sel_defence)
         if res_fight == '+':
-            self.score += settings.SCORE_SUCCESS_ATTACK
             print('YOUR DEFENCE IS SUCCESSFUL!')
         elif res_fight == 'draw':
             print('IT’S A DRAW!')
         else:
-            self.decrease_health()
             print('YOUR DEFENCE IS FAILED!')
+            self.decrease_health()
 
     def fight(self, attack, defence) -> str:                   # KNIGHT - 1, THIEF - 2, WIZARD - 3
         if attack == 1 and defence == 2 or attack == 2 and defence == 3 or attack == 3 and defence == 1:
@@ -73,14 +74,14 @@ class Player:
 
     @staticmethod
     def select_attack() -> int:
-        select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
-        while select == 1 or select == 2 or select == 3:
-            return select
-        Player.select_attack()
+        select = 0
+        while select != 1 and select != 2 and select != 3:
+            select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+        return select
 
     @staticmethod
     def select_defence() -> int:
-        select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
-        while select == 1 or select == 2 or select == 3:
-            return select
-        Player.select_defence()
+        select = 0
+        while select != 1 and select != 2 and select != 3:
+            select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+        return select
