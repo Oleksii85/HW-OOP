@@ -75,13 +75,16 @@ class Player:
     @staticmethod
     def select_attack() -> int:
         select = 0
-        while select not in (1, 2, 3):
-            select = (input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+        while select not in ('1', '2', '3'):
+            select = input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): ')
         return int(select)
 
     @staticmethod
     def select_defence() -> int:
         select = 0
         while select not in (1, 2, 3):
-            select = (input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
-        return int(select)
+            try:
+                select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+            except ValueError:
+                pass
+        return select
