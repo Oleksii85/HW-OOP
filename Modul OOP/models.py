@@ -75,13 +75,13 @@ class Player:
     @staticmethod
     def select_attack() -> int:
         select = 0
-        while select != 1 and select != 2 and select != 3:
-            select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
-        return select
+        while select not in (1, 2, 3):
+            select = (input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+        return int(select)
 
     @staticmethod
     def select_defence() -> int:
         select = 0
-        while select != 1 and select != 2 and select != 3:
-            select = int(input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
-        return select
+        while select not in (1, 2, 3):
+            select = (input('MAKE A FIGHT CHOICE FROM (KNIGHT - 1, THIEF - 2, WIZARD - 3): '))
+        return int(select)

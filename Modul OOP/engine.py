@@ -6,17 +6,14 @@ import exceptions
 def get_player_name() -> str:
     name = ''
     while name == '':
-        name = (input("ENTER YOUR NAME: ")).strip()
+        name = input("ENTER YOUR NAME: ").strip()
     return name
 
 
 def play() -> None:
-    level = settings.INITIAL_ENEMY_LEVEL
     name = get_player_name()
-    scores = open('scores.txt', 'w')
-    scores.write(name)
     player = models.Player(name)
-    enemy = models.Enemy(level)
+    enemy = models.Enemy(settings.INITIAL_ENEMY_LEVEL)
     while True:
         try:
             player.attack(enemy)
@@ -26,10 +23,12 @@ def play() -> None:
             print(f'Enemy level {enemy.level} is defeated')
             enemy = models.Enemy(enemy.level + 1)
         except exceptions.GameOver:
+            with open("scores.txt", "a") as f:
+                f.write(name)
+                f.write(f', your scores = {str(player.score)}')
+                f.close()
             break
-    scores.write(f', your scores = {str(player.score)}')
     print(f'{name} is defeated \nSCORE POINTS: {player.score} \n \nGOOD BYE ')
-    scores.close()
 
 
 if __name__ == '__main__':
